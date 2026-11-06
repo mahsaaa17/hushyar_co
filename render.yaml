@@ -2,17 +2,17 @@ services:
   - type: web
     name: hooshyar
     runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
     disk:
       name: hooshyar-data
       mountPath: /opt/render/project/src/data
       sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12.0
+        value: 3.11.9
       - key: APP_NAME
-        value: Hooshyar
+        value: Hooshyار
       - key: ENVIRONMENT
         value: production
       - key: HOOSHYAR_DATA_DIR
