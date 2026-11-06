@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}هوشیار{% endblock %}</title>
+  <link rel="preload" href="/static/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/css/style.css">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="صفحه اصلی هوشیار"><span class="brand-mark">هـ</span><span>هوشیار<small>پژوهش کیفی</small></span></a>
+    <nav aria-label="ناوبری اصلی">
+      <a href="/">نمای کلی</a>
+      <a href="/projects">پروژه‌ها</a>
+    </nav>
+    <span class="topbar-note">نظریه داده‌بنیاد | اشتراوس و کوربین</span>
+    {% if request.session.get('admin') %}<form action="/auth/logout" method="post"><button class="text-button" type="submit">خروج</button></form>{% endif %}
+  </header>
+  <main class="page-shell">{% block content %}{% endblock %}</main>
+  <script src="/static/js/app.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

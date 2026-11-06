@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}مدل پارادایمی | هوشیار{% endblock %}
+{% block content %}
+<div class="breadcrumbs"><a href="/results/{{ project.project_id }}">نتایج</a><span>/</span><span>مدل پارادایمی</span></div>
+<section class="page-heading"><div><p class="eyebrow">اشتراوس و کوربین</p><h1>مدل پارادایمی</h1><p class="lede">بخش‌ها بر اساس تحلیل ثبت‌شده نمایش داده می‌شوند؛ موارد بدون شاهد خالی می‌مانند.</p></div></section>
+{% set model = analysis.paradigm_model %}
+{% set sections = [('causal_conditions','شرایط علّی','cause'),('central_phenomenon','پدیده محوری','phenomenon'),('contextual_conditions','شرایط زمینه‌ای','context'),('intervening_conditions','شرایط مداخله‌گر','intervening'),('action_interaction_strategies','راهبردهای کنش و تعامل','strategy'),('consequences','پیامدها','consequence')] %}
+<div class="paradigm-grid">{% for key,label,kind in sections %}{% set items = model.get(key, []) %}{% if items is mapping %}{% set items = [items] %}{% endif %}<section class="paradigm-block paradigm-{{ kind }}"><div class="paradigm-label"><span>{{ "%02d"|format(loop.index) }}</span><h2>{{ label }}</h2></div>{% for item in items %}{% if item is mapping %}<article><h3>{{ item.title or item.category_name or item.name or item.category_id or label }}</h3>{% if item.definition %}<p>{{ item.definition }}</p>{% endif %}{% if item.concept_ids %}<small>مفاهیم: {{ item.concept_ids|join('، ') }}</small>{% endif %}</article>{% else %}<article><p>{{ item }}</p></article>{% endif %}{% else %}<p class="no-evidence">در تحلیل ثبت نشده</p>{% endfor %}</section>{% endfor %}</div>
+{% endblock %}
