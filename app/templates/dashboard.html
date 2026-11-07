@@ -1,40 +1,26 @@
 {% extends "base.html" %}
-{% block title %}نمای کلی | هوشیار{% endblock %}
+{% block title %}بارگذاری مصاحبه | نظریه‌یار{% endblock %}
 {% block content %}
-<section class="page-heading">
-	<div><p class="eyebrow">فضای پژوهش</p><h1>پروژه‌های نظریه داده‌بنیاد</h1><p class="lede">مصاحبه را آماده کنید، پرامپت را به هوش مصنوعی بدهید و تحلیل مستند را برای بازبینی وارد کنید.</p></div>
-	<a class="button button-secondary" href="/projects">مشاهده همه پروژه‌ها <span aria-hidden="true">←</span></a>
-</section>
-<section class="summary-grid" aria-label="خلاصه پروژه‌ها">
-	<div class="summary-item"><span class="summary-label">پروژه‌های ثبت‌شده</span><strong>{{ project_count }}</strong></div>
-	<div class="summary-item"><span class="summary-label">مراحل تحلیل</span><strong>۴</strong><span class="summary-foot">از ورود Word تا خروجی نهایی</span></div>
-	<div class="summary-item summary-accent"><span class="summary-label">روش تحلیل</span><strong>اشتراوس و کوربین</strong><span class="summary-foot">با تصمیم نهایی پژوهشگر</span></div>
-</section>
-<div class="content-grid dashboard-grid">
-	<section class="panel">
-		<div class="section-heading"><div><p class="eyebrow">شروع تازه</p><h2>ایجاد پروژه</h2></div><span class="step-number">۰۱</span></div>
-		<form id="new-project" action="/projects" method="post" class="form-stack">
-			<label>عنوان پژوهش<input name="title" required maxlength="180" placeholder="مثلاً تجربه مدیران در تغییر سازمانی"></label>
-			<label>موضوع یا پرسش پژوهش<textarea name="topic" rows="3" maxlength="3000" placeholder="موضوعی که تحلیل مصاحبه در ارتباط با آن انجام می‌شود"></textarea></label>
-			<button class="button button-primary" type="submit">ساخت پروژه <span aria-hidden="true">←</span></button>
-		</form>
-	</section>
-	<section class="panel panel-list">
-		<div class="section-heading"><div><p class="eyebrow">ادامه کار</p><h2>پروژه‌های اخیر</h2></div><span class="count-tag">{{ project_count }}</span></div>
-		{% if projects %}
-		<div class="project-list">
-			{% for project in projects[:5] %}
-			<a class="project-row" href="/projects/{{ project.project_id }}">
-				<span class="project-symbol">{{ loop.index }}</span>
-				<span class="project-info"><strong>{{ project.title }}</strong><small>{{ project.topic or 'بدون توضیح موضوع' }}</small></span>
-				<span class="project-status">{% if project.analysis %}تحلیل آماده{% elif project.paragraphs %}مصاحبه بارگذاری‌شده{% else %}در حال آماده‌سازی{% endif %}</span>
-				<span class="row-arrow" aria-hidden="true">←</span>
-			</a>
-			{% endfor %}
+<section class="upload-home">
+	<div class="upload-heading">
+		<p class="eyebrow">شروع تحلیل</p>
+		<h1>لطفاً فایل مصاحبه خود را آپلود کنید</h1>
+	</div>
+	<form id="interview-upload-start" class="upload-card" action="/projects" method="post" enctype="multipart/form-data" data-upload-start>
+		<input type="hidden" name="title" value="مصاحبه جدید" data-project-title>
+		<div class="upload-dropzone" data-upload-drop>
+			<input id="interview-file" class="upload-input" type="file" name="interview" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required data-upload-file>
+			<label class="upload-drop-label" for="interview-file">
+				<span class="upload-symbol" aria-hidden="true">↑</span>
+				<strong>فایل خود را اینجا انتخاب کنید</strong>
+				<span class="upload-hint">یا فایل را بکشید و در این قسمت رها کنید</span>
+				<span class="upload-select">انتخاب فایل</span>
+				<span class="upload-format">فرمت مجاز: DOCX · حداکثر ۲۰ مگابایت</span>
+			</label>
 		</div>
-		{% else %}
-		<div class="empty-state"><span class="empty-mark">+</span><strong>هنوز پروژه‌ای ندارید</strong><p>با فرم کنار صفحه اولین پروژه را بسازید.</p></div>
-		{% endif %}
-	</section>
-</div>
+		<p class="selected-file" data-upload-filename hidden></p>
+		<p class="upload-status" data-upload-status role="status" aria-live="polite" hidden></p>
+		<button class="button button-primary upload-submit" type="submit" disabled data-upload-submit>شروع تحلیل</button>
+	</form>
+</section>
 {% endblock %}

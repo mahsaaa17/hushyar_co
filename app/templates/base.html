@@ -10,12 +10,10 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="صفحه اصلی هوشیار"><span class="brand-mark">هـ</span><span>هوشیار<small>پژوهش کیفی</small></span></a>
+    <a class="brand" href="/" aria-label="صفحه اصلی نظریه‌یار"><span class="brand-mark">ن</span><span>نظریه‌یار</span></a>
     <nav aria-label="ناوبری اصلی">
-      <a href="/">نمای کلی</a>
-      <a href="/projects">پروژه‌ها</a>
+      <a href="/projects">تاریخچه</a>
     </nav>
-    <span class="topbar-note">نظریه داده‌بنیاد | اشتراوس و کوربین</span>
     {% if request.session.get('admin') %}<form action="/auth/logout" method="post"><button class="text-button" type="submit">خروج</button></form>{% endif %}
   </header>
   <main class="page-shell">{% block content %}{% endblock %}</main>

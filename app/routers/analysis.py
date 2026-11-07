@@ -1,5 +1,7 @@
 """Prompt generation and AI result import routes."""
 
+import json
+
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import PlainTextResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -64,10 +66,13 @@ async def import_analysis(
 			raise HTTPException(status_code=413, detail="حجم JSON باید کمتر از ۵ مگابایت باشد.")
 		raw_json = content.decode("utf-8-sig")
 	try:
+		raw_result = json.loads(raw_json)
 		result = parse_analysis_json(raw_json, project)
 	except (ValueError, UnicodeDecodeError) as error:
 		return RedirectResponse(
 			f"/analysis/{project_id}?{urlencode({'error': str(error)[:300]})}", status_code=303
 		)
-	update_project(project_id, analysis=result)
+	update_project(project_id, analysis=result, raw_analysis=raw_result)
+	if result.get("schema_version") == "2.0":
+		return RedirectResponse(f"/results/{project_id}/concept-review", status_code=303)
 	return RedirectResponse(f"/results/{project_id}", status_code=303)

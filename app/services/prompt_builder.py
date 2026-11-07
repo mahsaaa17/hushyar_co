@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-PROMPT_PATH = Path(__file__).resolve().parents[2] / "prompts" / "grounded_theory_v1.txt"
+PROMPT_PATH = Path(__file__).resolve().parents[2] / "prompts" / "grounded_theory_v2.txt"
 
 
 def build_prompt(project: dict[str, Any]) -> str:
@@ -41,6 +41,7 @@ def build_prompt(project: dict[str, Any]) -> str:
 	]
 	input_data = {
 		"project_id": project["project_id"],
+		"interview_id": project.get("interview_id") or project["project_id"],
 		"title": project["title"],
 		"topic": project["topic"],
 		"paragraphs": paragraphs,

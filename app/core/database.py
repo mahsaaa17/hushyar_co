@@ -15,6 +15,8 @@ JSON_FIELDS = {
 	"paragraphs": "paragraphs_json",
 	"concepts": "concepts_json",
 	"analysis": "analysis_json",
+	"raw_analysis": "raw_analysis_json",
+	"researcher_edits": "researcher_edits_json",
 	"processing_issues": "processing_issues_json",
 }
 
@@ -40,6 +42,8 @@ def init_db() -> None:
 				paragraphs_json TEXT NOT NULL DEFAULT '[]',
 				concepts_json TEXT NOT NULL DEFAULT '[]',
 				analysis_json TEXT,
+				raw_analysis_json TEXT,
+				researcher_edits_json TEXT NOT NULL DEFAULT '{}',
 				processing_issues_json TEXT NOT NULL DEFAULT '[]'
 			)"""
 		)
@@ -48,6 +52,12 @@ def init_db() -> None:
 			connection.execute(
 				"ALTER TABLE projects ADD COLUMN processing_issues_json TEXT NOT NULL DEFAULT '[]'"
 			)
+		if "researcher_edits_json" not in columns:
+			connection.execute(
+				"ALTER TABLE projects ADD COLUMN researcher_edits_json TEXT NOT NULL DEFAULT '{}'"
+			)
+		if "raw_analysis_json" not in columns:
+			connection.execute("ALTER TABLE projects ADD COLUMN raw_analysis_json TEXT")
 
 
 def _decode(row: sqlite3.Row | None) -> dict[str, Any] | None:
